@@ -1,0 +1,92 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0%;
+  padding: 0%;
+  font-family: "Nunito Sans", sans-serif;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  background-color: hsl(0, 0%, 99%);
+  color: hsl(209, 23%, 22%);
+}
+
+/* dark mode styles */
+.container .dark-mode {
+  background-color: hsl(207, 26%, 17%);
+  color: hsl(0, 100%, 100%);
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  background-color: hsl(0, 0%, 99%);
+  padding: 20px 50px;
+  border-bottom: 2px solid rgb(176, 170, 170);
+  /* margin-bottom: 50px; */
+}
+
+/* dark mode styles */
+nav.dark-mode {
+  background-color: hsl(207, 26%, 17%) !important;
+  color: hsl(0, 100%, 100%) !important;
+}
+
+.spread {
+  display: flex;
+  gap: 5px;
+}
+
+.spread i {
+  position: relative;
+  top: 5px;
+  cursor: pointer;
+}
+
+section {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 50px;
+  /* background-color: gray; */
+}
+
+input {
+  padding: 10px 20px;
+  border: none;
+  outline: none;
+  width: 15%;
+  box-shadow: 3px 2px 3px -2px gray;
+}
+
+select {
+  padding: 10px 20px;
+  border: none;
+  outline: none;
+  width: 10%;
+  box-shadow: 3px 2px 3px -2px gray;
+  background-color: hsl(0, 0%, 99%);
+}
+
+.first-row {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding-top: 20px;
+}
+
+.country {
+  width: 20vw;
+  height: 40vh;
+  border: 2px solid black;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.country > img {
+  width: 250px;
+  height: 250px;
+  border-radius: 10px;
+}
