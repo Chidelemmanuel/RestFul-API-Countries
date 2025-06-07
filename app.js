@@ -4,10 +4,11 @@ const moonIcon = document.querySelector("#moonIcon");
 const container = document.querySelector(".container");
 const navbar = document.querySelector("nav");
 const row = document.querySelector(".first-row");
+const second = document.querySelector(".second-row");
+
 const input = document.querySelector("#input");
 const filter = document.querySelector("#filter");
-const countries = document.querySelector(".country");
-const search = document.querySelector("#search");
+const countries = document.querySelector("#country");
 
 moonIcon.addEventListener("click", (e) => {
   e.preventDefault();
@@ -17,44 +18,61 @@ moonIcon.addEventListener("click", (e) => {
   row.classList.toggle("dark-mode");
 });
 
-search.addEventListener("click", (e) => {
-  e.preventDefault();
-  console.log("searched");
-});
+// input.addEventListener("click", (e) => {
+//   e.preventDefault();
+//   const searchCountry = document.querySelector("#input").value;
 
-input.addEventListener("click", (e) => {
-  e.preventDefault();
+//   const countryFetch = fetch("./data.json")
+//     .then((response) => response.json())
+//     .then((data) => {
+//       console.log(data);
 
-  const country = document.querySelector("#input").value;
+//       data.forEach((country) => {
+//         const div = document.createElement("div");
+//         div.innerHTML = `
+//         <h2>${country.name}</h2>
+//         <img src="${country.flags.png}" alt="">
+//         <p><strong>Population:</strong> ${country.population}</p>
+//         <p><strong>Region:</strong> ${country.region}</p>
+//         <p><strong>Capital:</strong> ${country.capital}</p>
+//         <hr />
+//         `;
+//         row.appendChild(div);
+//       });
+//     })
+//     .catch((error) => {
+//       console.error("Error loading JSON:", error);
+//     });
+// });
 
-  // fetch("./data.json")
-  // fetch(`https://restcountries.com/v3.1/name/{country}`)
+// console.log(countries);
 
-  // if (!country) {
-  //   alert("Please enter a country name.");
-  //   return;
-  // }
-
-  fetch(`https://restcountries.com/v3.1/name/${country}`)
+function loadCountries() {
+  fetch("./data.json")
     .then((response) => response.json())
     .then((data) => {
       console.log(data);
-      data.forEach((country) => {
+      const selectedCountries = data.slice(0, 4);
+
+      selectedCountries.forEach((country) => {
         const div = document.createElement("div");
+        div.classList.add("country-card");
+
         div.innerHTML = `
-        <h2>${data[0].name}</h2>        
-        <p><strong>Flag:</strong> ${country.flag}</p>
-        <p><strong>Capital:</strong> ${country.capital}</p>
-        <p><strong>Region:</strong> ${country.region}</p>
-        <p><strong>Population:</strong> ${country.population}</p>
-        <hr />
-      `;
+        <img src="${country.flags.png}" alt="Flag of ${country.name}"/>
+        <h2>${country.name}</h2>
+          <p><strong>Population:</strong> ${country.population}</p>
+          <p><strong>Region:</strong> ${country.region}</p>
+          <p><strong>Capital:</strong> ${country.capital}</p>
+        `;
+
         row.appendChild(div);
       });
     })
     .catch((error) => {
       console.error("Error loading JSON:", error);
+      row.innerHTML = "<p>Failed to load countries.</p>";
     });
-});
+}
 
-// console.log(countries);
+loadCountries();
