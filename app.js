@@ -1,78 +1,76 @@
-"use strict";
+const dropDown = document.querySelector(".dropdownMenu");
+const dropOptions = document.querySelector(".drop-options");
+const toggleBtn = document.querySelector(".toggle");
+const toggleIcon = document.querySelector(".bx");
+const countries = document.querySelector(".countries");
+const search = document.querySelector(".search");
+const regions = document.querySelectorAll(".regions");
+const regionsName = document.getElementsByClassName("regionsName");
 
-const moonIcon = document.querySelector("#moonIcon");
-const container = document.querySelector(".container");
-const navbar = document.querySelector("nav");
-const row = document.querySelector(".first-row");
-const second = document.querySelector(".second-row");
-
-const input = document.querySelector("#input");
-const filter = document.querySelector("#filter");
-const countries = document.querySelector("#country");
-
-moonIcon.addEventListener("click", (e) => {
-  e.preventDefault();
-
-  container.classList.toggle("dark-mode");
-  navbar.classList.toggle("dark-mode");
-  row.classList.toggle("dark-mode");
+toggleBtn.addEventListener("click", (e) => {
+  document.body.classList.toggle("dark-mode");
+  toggleIcon.classList.toggle("bxs-moon");
+  dropOptions.classList.toggle("dark-mode");
+  toggleBtn.classList.toggle("dark-mode");
+  search.classList.toggle("dark-mode");
 });
 
-// input.addEventListener("click", (e) => {
-//   e.preventDefault();
-//   const searchCountry = document.querySelector("#input").value;
+dropDown.addEventListener("click", (e) => {
+  dropOptions.classList.toggle("show-options");
+});
 
-//   const countryFetch = fetch("./data.json")
-//     .then((response) => response.json())
-//     .then((data) => {
-//       console.log(data);
+async function getContries() {
+  const URL = await fetch("./data.json");
+  // https://restcountries.com/v2.1/all
+  const res = await URL.json();
 
-//       data.forEach((country) => {
-//         const div = document.createElement("div");
-//         div.innerHTML = `
-//         <h2>${country.name}</h2>
-//         <img src="${country.flags.png}" alt="">
-//         <p><strong>Population:</strong> ${country.population}</p>
-//         <p><strong>Region:</strong> ${country.region}</p>
-//         <p><strong>Capital:</strong> ${country.capital}</p>
-//         <hr />
-//         `;
-//         row.appendChild(div);
-//       });
-//     })
-//     .catch((error) => {
-//       console.error("Error loading JSON:", error);
-//     });
-// });
-
-// console.log(countries);
-
-function loadCountries() {
-  fetch("./data.json")
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-      const selectedCountries = data.slice(0, 4);
-
-      selectedCountries.forEach((country) => {
-        const div = document.createElement("div");
-        div.classList.add("country-card");
-
-        div.innerHTML = `
-        <img src="${country.flags.png}" alt="Flag of ${country.name}"/>
-        <h2>${country.name}</h2>
-          <p><strong>Population:</strong> ${country.population}</p>
-          <p><strong>Region:</strong> ${country.region}</p>
-          <p><strong>Capital:</strong> ${country.capital}</p>
-        `;
-
-        row.appendChild(div);
-      });
-    })
-    .catch((error) => {
-      console.error("Error loading JSON:", error);
-      row.innerHTML = "<p>Failed to load countries.</p>";
-    });
+  console.log(res);
+  res.forEach((contri) => {
+    showCountries(contri);
+  });
 }
 
-loadCountries();
+getContries();
+
+function showCountries(data) {
+  const country = document.createElement("div");
+  country.classList.add("country");
+  country.innerHTML = `
+    <div class="countries-img">
+        <img src=${data.flags.png} alt="Afghanistan-flag">
+    </div> 
+    <div class="countries-details">
+        <h2 class="countryName">${data.name}</h2>
+        <p><strong>Population:</strong>${data.population}</p>
+        <p class="regionsName"><strong>Region:</strong>${data.region}</p>
+        <p><strong>Capital:</strong>${data.capital}</p>
+    </div>`;
+  countries.appendChild(country);
+}
+
+const countryName = document.getElementsByClassName("countryName");
+
+search.addEventListener("input", (e) => {
+  Array.from(countryName).forEach((countri) => {
+    if (countri.innerText.toLowerCase().includes(search.value.toLowerCase())) {
+      countri.parentElement.parentElement.style.display = "grid";
+    } else {
+      countri.parentElement.parentElement.style.display = "none";
+    }
+  });
+});
+
+regions.forEach((region) => {
+  region.addEventListener("click", (e) => {
+    Array.from(regionsName).forEach((reg) => {
+      if (
+        reg.innerText.includes(region.innerText) ||
+        region.innerText == "All"
+      ) {
+        reg.parentElement.parentElement.style.display = "grid";
+      } else {
+        reg.parentElement.parentElement.style.display = "none";
+      }
+    });
+  });
+});
